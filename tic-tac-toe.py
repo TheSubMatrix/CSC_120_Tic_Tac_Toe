@@ -23,14 +23,25 @@ def validateLocation(playlocation):
 def play(location, letter):
     boardState [location[0]] [location[1]] = letter
 
-while(isRunning):
-    playerInputValid = False
-    print("It is player " + str(playerTurn) + "'s turn")
+def checkWin():
+    for i in range(0, len(boardState)-1):
+        if(boardState[i][0] != ' ' and boardState[i][0] == boardState[i][1] and boardState[i][0] == boardState[i][2]):
+            return True
+    for i in range(0, len(boardState[0])-1):
+        if(boardState[0][i] != ' ' and boardState[0][i] == boardState[1][i] and boardState[0][i] == boardState[2][i]):
+            return True
+    return False
+def printBoard():
     print(boardState[0][0] + '|' + boardState[1][0] + '|' + boardState[2][0])
     print('-+-+-')
     print(boardState[0][1] + '|' + boardState[1][1] + '|' + boardState[2][1])
     print('-+-+-')
     print(boardState[0][2] + '|' + boardState[1][2] + '|' + boardState[2][2])
+
+while(isRunning):
+    playerInputValid = False
+    print("It is player " + str(playerTurn) + "'s turn")
+    printBoard()
     while(playerInputValid == False):
         playerInput[0] = input("Which column would you like to play in? Please Type 1, 2, or 3: ")
         playerInput[1] = input("Which row would you like to play in? Please Type 1, 2, or 3: ")
@@ -42,7 +53,13 @@ while(isRunning):
         else: print("Your input is invalid, please try again")
     if (playerTurn == 1):
         play(parseInput(playerInput), 'X')
+        if(checkWin() == True):
+            print("player " + str(playerTurn) + " wins!")
+            isRunning = False
         playerTurn = 2
     else:
         play(parseInput(playerInput), 'O')
+        if(checkWin() == True):
+            print("player " + str(playerTurn) + " wins!")
+            isRunning = False
         playerTurn = 1
