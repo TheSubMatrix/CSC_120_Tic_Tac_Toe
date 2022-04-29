@@ -30,13 +30,23 @@ def checkWin():
     for i in range(0, len(boardState[0])-1):
         if(boardState[0][i] != ' ' and boardState[0][i] == boardState[1][i] and boardState[0][i] == boardState[2][i]):
             return True
+    if(boardState[0][0] != ' ' and boardState[0][0] == boardState[1][1] and boardState[0][0] == boardState[2][2] or boardState[0][2] != ' ' and boardState[0][2] == boardState[1][1] and boardState[2][0] == boardState[0][2]):
+        return True
     return False
+
 def printBoard():
     print(boardState[0][0] + '|' + boardState[1][0] + '|' + boardState[2][0])
     print('-+-+-')
     print(boardState[0][1] + '|' + boardState[1][1] + '|' + boardState[2][1])
     print('-+-+-')
     print(boardState[0][2] + '|' + boardState[1][2] + '|' + boardState[2][2])
+
+def checkFull():
+    for i in range(0, len(boardState)-1):
+        for j in range(0, len(boardState[0])-1):
+            if(boardState[i][j] == ' '):
+                return False
+    return True
 
 while(isRunning):
     playerInputValid = False
@@ -54,12 +64,22 @@ while(isRunning):
     if (playerTurn == 1):
         play(parseInput(playerInput), 'X')
         if(checkWin() == True):
+            printBoard()
             print("player " + str(playerTurn) + " wins!")
+            isRunning = False
+        if (checkFull() == True):
+            printBoard()
+            print("Draw!")
             isRunning = False
         playerTurn = 2
     else:
         play(parseInput(playerInput), 'O')
         if(checkWin() == True):
+            printBoard()
             print("player " + str(playerTurn) + " wins!")
+            isRunning = False
+        if (checkFull() == True):
+            printBoard()
+            print("Draw!")
             isRunning = False
         playerTurn = 1
